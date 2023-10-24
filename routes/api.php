@@ -20,6 +20,13 @@ Route::post('/token', [AuthController::class, 'generateToken']);
 Route::post('/user', [UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    // User (Administrador)
+    Route::get('/user/list', [UserController::class, 'list']);
+    Route::get('/user/{id}', [UserController::class, 'get']);
+    Route::put('/user/{id}', [UserController::class, 'update']);
+    Route::delete('/user/{id}', [UserController::class, 'delete']);
+
+    // Seller
     Route::post('seller', [SellerController::class, 'store']);
     Route::get('seller/{id}', [SellerController::class, 'get']);
     Route::get('seller/list', [SellerController::class, 'list']);

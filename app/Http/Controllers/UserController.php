@@ -21,7 +21,7 @@ class UserController extends Controller
         try {
             $user = $this->service->createUser($request->validated());
 
-            return response()->json($user, 201);
+            return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()
@@ -34,7 +34,7 @@ class UserController extends Controller
         try {
             $user = $this->service->getUser($userId);
 
-            return response()->json($user);
+            return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()
@@ -47,7 +47,7 @@ class UserController extends Controller
         try {
             $users = $this->service->getUsers();
 
-            return response()->json($users);
+            return response()->json($users, $this->service->httpCode);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()
@@ -60,7 +60,7 @@ class UserController extends Controller
         try {
             $user = $this->service->updateUser($userId, $request->validated());
 
-            return response()->json($user);
+            return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()
@@ -71,9 +71,9 @@ class UserController extends Controller
     public function delete(int $userId): JsonResponse
     {
         try {
-            $user = $this->service->deleteUser($userId);
+            $response = $this->service->deleteUser($userId);
 
-            return response()->json($user);
+            return response()->json($response, $this->service->httpCode);
         } catch (\Throwable $th) {
             return response()->json([
                 'error' => $th->getMessage()

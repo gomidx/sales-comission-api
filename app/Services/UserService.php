@@ -7,18 +7,21 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    private UserRepository $userRepository;
+    private UserRepository $repository;
+    public int $httpCode;
 
     public function __construct() 
     {
-        $this->userRepository = new UserRepository;
+        $this->repository = new UserRepository;
     }
 
     public function createUser(array $userDetails): array
     {
         $userDetails['password'] = Hash::make($userDetails['password']);
 
-        $user = $this->userRepository->createUser($userDetails);
+        $user = $this->repository->createUser($userDetails);
+
+        $this->httpCode = 201;
 
         return [
             'data' => $user
@@ -27,7 +30,9 @@ class UserService
 
     public function getUser(int $userId): array
     {
-        $user = $this->userRepository->getUserById($userId);
+        $user = $this->repository->getUserById($userId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $user
@@ -36,7 +41,9 @@ class UserService
 
     public function getUsers(): array
     {
-        $users = $this->userRepository->getUsers();
+        $users = $this->repository->getUsers();
+
+        $this->httpCode = 200;
 
         return [
             'data' => $users
@@ -45,11 +52,17 @@ class UserService
 
     public function updateUser(int $userId, array $userDetails): array
     {
-        if (! empty($userDetails['password'])) {
-            $userDetails['password'] = Hash::make($userDetails['password']);
+        $error = $this->checkIfHasError($userId);
+
+        if (! empty($error)) {
+            return $error;
         }
         
-        $user = $this->userRepository->updateUser($userId, $userDetails);
+        $this->repository->updateUser($userId, $userDetails);
+
+        $user = $this->repository->getUserById($userId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $user
@@ -58,10 +71,50 @@ class UserService
 
     public function deleteUser(int $userId): array
     {
-        $user = $this->userRepository->deleteUser($userId);
+        $error = $this->checkIfHasError($userId);
+
+        if (! empty($error)) {
+            return $error;
+        }
+
+        $this->repository->deleteUser($userId);
+
+        $this->httpCode = 200;
 
         return [
-            'data' => $user
+            'data' => 'Successfully deleted.'
         ];
+    }
+
+    private function checkIfHasError(int $userId): array
+    {
+        if (! $this->userExists($userId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "User doesn't exists"
+            ];
+        }
+
+        if (auth()->user()->id !== $userId) {
+            $this->httpCode = 403;
+
+            return [
+                'error' => "You don't have permission to update this user"
+            ];
+        }
+
+        return [];
+    }
+
+    private function userExists(int $userId): bool
+    {
+        $user = $this->repository->getUserById($userId);
+
+        if (empty($user->id)) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -13,12 +13,12 @@ class UserRepository implements UserRepositoryInterface
         return User::create($userDetails);
     }
 
-    public function getUserById(int $userId): User
+    public function getUserById(int $userId): ?User
     {
         return User::find($userId);
     }
 
-    public function getUserByEmail(string $userEmail): User
+    public function getUserByEmail(string $userEmail): ?User
     {
         return User::where('email', $userEmail)->first();
     }
@@ -28,9 +28,9 @@ class UserRepository implements UserRepositoryInterface
         return User::all();
     }
 
-    public function updateUser(int $userId, array $newDetails): User
+    public function updateUser(int $userId, array $newDetails): void
     {
-        return User::whereId($userId)->update($newDetails);
+        User::whereId($userId)->update($newDetails);
     }
 
     public function deleteUser(int $userId): void

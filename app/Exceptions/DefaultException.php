@@ -11,6 +11,6 @@ abstract class DefaultException
 	{
 		return response()->json([
 			'error' => $exception->getMessage()
-		]);
+		], 500);
 	}
 }
