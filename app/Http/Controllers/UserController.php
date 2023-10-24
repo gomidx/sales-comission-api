@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\DefaultException;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Services\UserService;
@@ -23,9 +24,7 @@ class UserController extends Controller
 
             return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
@@ -36,9 +35,7 @@ class UserController extends Controller
 
             return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
@@ -49,9 +46,7 @@ class UserController extends Controller
 
             return response()->json($users, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
@@ -62,9 +57,7 @@ class UserController extends Controller
 
             return response()->json($user, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
@@ -75,9 +68,7 @@ class UserController extends Controller
 
             return response()->json($response, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 }
