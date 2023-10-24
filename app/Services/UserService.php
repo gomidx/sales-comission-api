@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-    private UserRepositoryInterface $userRepository;
+    private UserRepository $userRepository;
 
     public function __construct() 
     {
-        $this->userRepository = new UserRepositoryInterface;
+        $this->userRepository = new UserRepository;
     }
 
     public function createUser(array $userDetails): array
