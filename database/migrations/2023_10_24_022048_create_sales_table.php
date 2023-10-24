@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->decimal('total_value', 10, 2);
+            $table->date('date_of_sale');
+            $table->unsignedBigInteger('seller_id');
+            $table->foreign('seller_id')->references('id')->on('sellers');
             $table->timestamps();
         });
     }
