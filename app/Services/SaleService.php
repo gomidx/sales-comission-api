@@ -2,16 +2,15 @@
 
 namespace App\Services;
 
-use App\Interfaces\SaleRepositoryInterface;
-use Illuminate\Support\Facades\Hash;
+use App\Repositories\SaleRepository;
 
 class SaleService
 {
-    private SaleRepositoryInterface $saleRepository;
+    private SaleRepository $saleRepository;
 
     public function __construct() 
     {
-        $this->saleRepository = new SaleRepositoryInterface;
+        $this->saleRepository = new SaleRepository;
     }
 
     public function createSale(array $saleDetails): array

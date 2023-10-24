@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Interfaces\SellerRepositoryInterface;
+use App\Repositories\SellerRepository;
 use Illuminate\Support\Facades\Hash;
 
 class SellerService
 {
-    private SellerRepositoryInterface $sellerRepository;
+    private SellerRepository $sellerRepository;
 
     public function __construct() 
     {
-        $this->sellerRepository = new SellerRepositoryInterface;
+        $this->sellerRepository = new SellerRepository;
     }
 
     public function createSeller(array $sellerDetails): array
