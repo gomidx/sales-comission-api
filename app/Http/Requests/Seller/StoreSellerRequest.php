@@ -25,7 +25,7 @@ class StoreSellerRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'email' => 'required|unique|max:50',
+            'email' => 'required|unique:sellers|max:50',
             'password' => 'required|max:50'
         ];
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Seller;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateSellerRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateSellerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|max:50',
-            'email' => 'nullable|unique:sellers|max:50',
-            'password' => 'nullable|max:50'
+            'name' => 'required|max:50',
+            'email' => 'required|unique:users|max:50',
+            'password' => 'required|max:50'
         ];
     }
 }
