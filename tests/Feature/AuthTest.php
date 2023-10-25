@@ -39,7 +39,7 @@ class AuthTest extends TestCase
         $this->createUser();
 
         $response = $this->json(
-            'GET',
+            'POST',
             '/api/logout'
         );
 

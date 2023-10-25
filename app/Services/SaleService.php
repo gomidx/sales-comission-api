@@ -28,6 +28,12 @@ class SaleService
 
     public function getSale(int $saleId): array
     {
+        $error = $this->checkIfHasError($saleId);
+
+        if (! empty($error)) {
+            return $error;
+        }
+
         $sale = $this->repository->getSaleById($saleId);
 
         $this->httpCode = 200;
@@ -61,7 +67,26 @@ class SaleService
 
     public function deleteSale(int $saleId): array
     {
-        if (! $this->saleExists($saleId)) {
+        $error = $this->checkIfHasError($saleId);
+
+        if (! empty($error)) {
+            return $error;
+        }
+
+        $this->repository->deleteSale($saleId);
+
+        $this->httpCode = 200;
+
+        return [
+            'data' => 'Successfully deleted.'
+        ];
+    }
+
+    private function checkIfHasError(int $saleId): array
+    {
+        $sale = $this->repository->getSaleById($saleId);
+
+        if (empty($sale->id)) {
             $this->httpCode = 404;
 
             return [
@@ -69,23 +94,6 @@ class SaleService
             ];
         }
 
-        $sale = $this->repository->deleteSale($saleId);
-
-        $this->httpCode = 200;
-
-        return [
-            'data' => $sale
-        ];
-    }
-
-    private function saleExists(int $saleId): bool
-    {
-        $sale = $this->repository->getSaleById($saleId);
-
-        if (empty($sale->id)) {
-            return false;
-        }
-
-        return true;
+        return [];
     }
 }

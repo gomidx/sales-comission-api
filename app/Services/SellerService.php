@@ -28,12 +28,10 @@ class SellerService
 
     public function getSeller(int $sellerId): array
     {
-        if (! $this->sellerExists($sellerId)) {
-            $this->httpCode = 404;
+        $error = $this->checkIfHasError($sellerId);
 
-            return [
-                'error' => "Seller doesn't exists."
-            ];   
+        if (! empty($error)) {
+            return $error;
         }
 
         $seller = $this->repository->getSellerById($sellerId);
@@ -58,12 +56,10 @@ class SellerService
 
     public function updateSeller(int $sellerId, array $sellerDetails): array
     {
-        if (! $this->sellerExists($sellerId)) {
-            $this->httpCode = 404;
+        $error = $this->checkIfHasError($sellerId);
 
-            return [
-                'error' => "Seller doesn't exists."
-            ];
+        if (! empty($error)) {
+            return $error;
         }
 
         $this->repository->updateSeller($sellerId, $sellerDetails);
@@ -79,12 +75,10 @@ class SellerService
 
     public function deleteSeller(int $sellerId): array
     {
-        if (! $this->sellerExists($sellerId)) {
-            $this->httpCode = 404;
+        $error = $this->checkIfHasError($sellerId);
 
-            return [
-                'error' => "Seller doesn't exists."
-            ];
+        if (! empty($error)) {
+            return $error;
         }
 
         $this->repository->deleteSeller($sellerId);
@@ -96,14 +90,18 @@ class SellerService
         ];
     }
 
-    private function sellerExists(int $sellerId): bool
+    private function checkIfHasError(int $sellerId): array
     {
         $seller = $this->repository->getSellerById($sellerId);
 
         if (empty($seller->id)) {
-            return false;
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Seller doesn't exists."
+            ];
         }
 
-        return true;
+        return [];
     }
 }
