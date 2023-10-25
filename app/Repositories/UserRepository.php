@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserRepositoryInterface 
 {
@@ -21,20 +20,5 @@ class UserRepository implements UserRepositoryInterface
     public function getUserByEmail(string $userEmail): ?User
     {
         return User::where('email', $userEmail)->first();
-    }
-
-    public function getUsers(): Collection
-    {
-        return User::all();
-    }
-
-    public function updateUser(int $userId, array $newDetails): void
-    {
-        User::whereId($userId)->update($newDetails);
-    }
-
-    public function deleteUser(int $userId): void
-    {
-        User::destroy($userId);
     }
 }

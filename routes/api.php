@@ -22,10 +22,7 @@ Route::post('/user', [UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // User (Administrador)
-    Route::get('user/list', [UserController::class, 'list']);
     Route::get('user/{id}', [UserController::class, 'get']);
-    Route::put('user/{id}', [UserController::class, 'update']);
-    Route::delete('user/{id}', [UserController::class, 'delete']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Seller

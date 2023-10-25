@@ -45,53 +45,6 @@ class UserService
         ];
     }
 
-    public function getUsers(): array
-    {
-        $users = $this->repository->getUsers();
-
-        $this->httpCode = 200;
-
-        return [
-            'data' => $users
-        ];
-    }
-
-    public function updateUser(int $userId, array $userDetails): array
-    {
-        $error = $this->checkIfHasError($userId);
-
-        if (! empty($error)) {
-            return $error;
-        }
-        
-        $this->repository->updateUser($userId, $userDetails);
-
-        $user = $this->repository->getUserById($userId);
-
-        $this->httpCode = 200;
-
-        return [
-            'data' => $user
-        ];
-    }
-
-    public function deleteUser(int $userId): array
-    {
-        $error = $this->checkIfHasError($userId);
-
-        if (! empty($error)) {
-            return $error;
-        }
-
-        $this->repository->deleteUser($userId);
-
-        $this->httpCode = 200;
-
-        return [
-            'data' => 'Successfully deleted.'
-        ];
-    }
-
     private function checkIfHasError(int $userId): array
     {
         if (! $this->userExists($userId)) {

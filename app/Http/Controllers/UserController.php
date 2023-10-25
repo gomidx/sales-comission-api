@@ -129,37 +129,4 @@ class UserController extends Controller
             return DefaultException::make($th);
         }
     }
-
-    public function list(): JsonResponse
-    {
-        try {
-            $data = $this->service->getUsers();
-
-            return response()->json($data, $this->service->httpCode);
-        } catch (\Throwable $th) {
-            return DefaultException::make($th);
-        }
-    }
-
-    public function update(int $userId, UpdateUserRequest $request): JsonResponse
-    {
-        try {
-            $data = $this->service->updateUser($userId, $request->validated());
-
-            return response()->json($data, $this->service->httpCode);
-        } catch (\Throwable $th) {
-            return DefaultException::make($th);
-        }
-    }
-
-    public function delete(int $userId): JsonResponse
-    {
-        try {
-            $data = $this->service->deleteUser($userId);
-
-            return response()->json($data, $this->service->httpCode);
-        } catch (\Throwable $th) {
-            return DefaultException::make($th);
-        }
-    }
 }

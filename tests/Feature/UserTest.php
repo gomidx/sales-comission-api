@@ -35,45 +35,4 @@ class UserTest extends TestCase
 
         $response->assertStatus(200);
     }
-
-    public function test_get_user_list(): void
-    {
-        $this->createUser();
-
-        User::factory(10)->create();
-
-        $response = $this->json(
-            'GET',
-            '/api/user/list'
-        );
-
-        $response->assertStatus(200);
-    }
-
-    public function test_update_a_user(): void
-    {
-        $user = $this->createUser();
-
-        $response = $this->json(
-            'PUT',
-            '/api/user/' . $user->id,
-            [
-                'name' => fake()->name()
-            ]
-        );
-
-        $response->assertStatus(200);
-    }
-
-    public function test_delete_a_user(): void
-    {
-        $user = $this->createUser();
-
-        $response = $this->json(
-            'DELETE',
-            '/api/user/' . $user->id
-        );
-
-        $response->assertStatus(200);
-    }
 }
