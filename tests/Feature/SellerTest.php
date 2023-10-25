@@ -2,18 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\Seller;
-use App\Models\User;
 use Tests\TestCase;
-use Laravel\Sanctum\Sanctum;
 
 class SellerTest extends TestCase
 {
     public function test_create_a_seller(): void
     {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
+        $this->createUser();
 
         $response = $this->json(
             'POST',
@@ -29,11 +24,9 @@ class SellerTest extends TestCase
 
     public function test_get_a_seller(): void
     {
-        $user = User::factory()->create();
+        $this->createUser();
 
-        Sanctum::actingAs($user);
-
-        $seller = Seller::factory()->create();
+        $seller = $this->createSeller();
 
         $response = $this->json(
             'GET',
@@ -45,11 +38,9 @@ class SellerTest extends TestCase
 
     public function test_get_seller_list(): void
     {
-        $user = User::factory()->create();
+        $this->createUser();
 
-        Sanctum::actingAs($user);
-
-        Seller::factory(10)->create();
+        $this->createSellers();
 
         $response = $this->json(
             'GET',
@@ -61,11 +52,9 @@ class SellerTest extends TestCase
 
     public function test_update_a_seller(): void
     {
-        $user = User::factory()->create();
+        $this->createUser();
 
-        Sanctum::actingAs($user);
-
-        $seller = Seller::factory()->create();
+        $seller = $this->createSeller();
 
         $response = $this->json(
             'PUT',
@@ -80,11 +69,9 @@ class SellerTest extends TestCase
 
     public function test_delete_a_seller(): void
     {
-        $user = User::factory()->create();
+        $this->createUser();
 
-        Sanctum::actingAs($user);
-
-        $seller = Seller::factory()->create();
+        $seller = $this->createSeller();
 
         $response = $this->json(
             'DELETE',

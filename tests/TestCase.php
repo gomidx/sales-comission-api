@@ -5,7 +5,6 @@ namespace Tests;
 use App\Models\Sale;
 use App\Models\Seller;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Sanctum\Sanctum;
 
@@ -27,18 +26,23 @@ abstract class TestCase extends BaseTestCase
         return Seller::factory()->create();
     }
 
+    protected function createSellers(): void
+    {
+        Seller::factory(10)->create();
+    }
+
     protected function createSale(): Sale
     {
         return Sale::factory()->create();
     }
 
-    protected function createSales(): Collection
+    protected function createSales(): void
     {
-        return Sale::factory(10)->create();
+        Sale::factory(10)->create();
     }
 
-    protected function createSalesForSpecificSeller(int $sellerId): Collection
+    protected function createSalesForSpecificSeller(int $sellerId): void
     {
-        return Sale::factory(10)->create(['seller_id' => $sellerId]);
+        Sale::factory(10)->create(['seller_id' => $sellerId]);
     }
 }

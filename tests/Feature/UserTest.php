@@ -26,9 +26,7 @@ class UserTest extends TestCase
 
     public function test_get_a_user(): void
     {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
+        $user = $this->createUser();
 
         $response = $this->json(
             'GET',
@@ -40,9 +38,7 @@ class UserTest extends TestCase
 
     public function test_get_user_list(): void
     {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
+        $this->createUser();
 
         User::factory(10)->create();
 
@@ -56,9 +52,7 @@ class UserTest extends TestCase
 
     public function test_update_a_user(): void
     {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
+        $user = $this->createUser();
 
         $response = $this->json(
             'PUT',
@@ -73,9 +67,7 @@ class UserTest extends TestCase
 
     public function test_delete_a_user(): void
     {
-        $user = User::factory()->create();
-
-        Sanctum::actingAs($user);
+        $user = $this->createUser();
 
         $response = $this->json(
             'DELETE',
