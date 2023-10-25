@@ -23,16 +23,14 @@ class SellerController extends Controller
      *      operationId="createSeller",
      *      tags={"Vendedores"},
      *      summary="",
-     *      description="Endpoint para criar uma venda.",
+     *      description="Endpoint para criar um vendedor.",
      *      security={{"sanctum": {}}},
 	 *		@OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(
-	 * 				type="object",
-	 * 				@OA\Property(property="total_value", type="number", example=300),
-	 * 				@OA\Property(property="date_of_sale", type="string", example="2023-10-24"),
-	 * 				@OA\Property(property="seller_id", type="integer", example=1),
-	 * 			)
+     *          @OA\JsonContent(type="object",
+     *              @OA\Property(property="name", type="string", example="Lucas Gomide"),
+     *              @OA\Property(property="email", type="string", example="lucasgomide@gmail.com"),
+     *          )
      *      ),
      *      @OA\Response(
      *          response=201,
@@ -97,7 +95,7 @@ class SellerController extends Controller
      *          @OA\JsonContent(
 	 * 				@OA\Property(property="data", type="object",
      *                  @OA\Property(property="name", type="string", example="Lucas Gomide"),
-     *                  @OA\Property(property="email", type="string", example="2023-10-24"),
+     *                  @OA\Property(property="email", type="string", example="lucasgomide@gmail.com"),
      *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
      *                  @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
      *                  @OA\Property(property="id", type="integer", example=1)
@@ -153,7 +151,7 @@ class SellerController extends Controller
 	 * 				@OA\Property(property="data", type="array",
      *                  @OA\Items(type="object",
      *                      @OA\Property(property="name", type="string", example="Lucas Gomide"),
-     *                      @OA\Property(property="email", type="string", example="2023-10-24"),
+     *                      @OA\Property(property="email", type="string", example="lucasgomide@gmail.com"),
      *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
      *                      @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
      *                      @OA\Property(property="id", type="integer", example=1)
@@ -188,6 +186,66 @@ class SellerController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *      path="/seller/{id}",
+     *      operationId="updateSeller",
+     *      tags={"Vendedores"},
+     *      summary="",
+     *      description="Endpoint para atualizar um vendedor.",
+     *      security={{"sanctum": {}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID do vendedor",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="int"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(type="object",
+	 * 				@OA\Property(property="name", type="string", example="Lucas Gomide Pavão"),
+	 * 			)
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Sucesso, vendedor atualizado.",
+     *          @OA\JsonContent(
+	 * 				@OA\Property(property="data", type="array",
+     *                  @OA\Items(type="object",
+     *                      @OA\Property(property="name", type="string", example="Lucas Gomide Pavão"),
+     *                      @OA\Property(property="email", type="string", example="lucasgomide@gmail.com"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-25T01:57:56.000000Z"),
+     *                      @OA\Property(property="id", type="integer", example=1)
+     *                  )
+	 * 			    )
+     *          )
+     *       ),
+     *       @OA\Response(
+     *          response=401,
+     *          description="Token inválido.",
+	 * 			@OA\JsonContent(
+	 * 				@OA\Property(property="error", type="string", example="Invalid token.")
+	 * 			)
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Não encontrado.",
+	 * 			@OA\JsonContent(
+	 * 				@OA\Property(property="error", type="string", example="Seller doesn't exists.")
+	 * 			)
+     *       ),
+	 * 		 @OA\Response(
+	 *     	    response=500,
+	 *     		description="Erro interno.",
+	 *     	 	@OA\JsonContent(
+	 *         		@OA\Property(property="error", type="string", example="Internal error, contact an administrator."),
+	 *     	 	)
+	 * 		 )
+     * )
+     */
     public function update(int $sellerId, UpdateSellerRequest $request): JsonResponse
     {
         try {
@@ -220,6 +278,13 @@ class SellerController extends Controller
      *          description="Sucesso, vendedor deletado.",
      *          @OA\JsonContent(
 	 * 				@OA\Property(property="data", type="string", example="Successfully deleted")
+	 * 			)
+     *       ),
+     *       @OA\Response(
+     *          response=404,
+     *          description="Não encontrado.",
+	 * 			@OA\JsonContent(
+	 * 				@OA\Property(property="error", type="string", example="Seller doesn't exists.")
 	 * 			)
      *       ),
      *       @OA\Response(

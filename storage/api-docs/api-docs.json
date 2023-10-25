@@ -697,7 +697,7 @@
                     "Vendedores"
                 ],
                 "summary": "",
-                "description": "Endpoint para criar uma venda.",
+                "description": "Endpoint para criar um vendedor.",
                 "operationId": "createSeller",
                 "requestBody": {
                     "required": true,
@@ -705,17 +705,13 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "total_value": {
-                                        "type": "number",
-                                        "example": 300
-                                    },
-                                    "date_of_sale": {
+                                    "name": {
                                         "type": "string",
-                                        "example": "2023-10-24"
+                                        "example": "Lucas Gomide"
                                     },
-                                    "seller_id": {
-                                        "type": "integer",
-                                        "example": 1
+                                    "email": {
+                                        "type": "string",
+                                        "example": "lucasgomide@gmail.com"
                                     }
                                 },
                                 "type": "object"
@@ -842,7 +838,7 @@
                                                 },
                                                 "email": {
                                                     "type": "string",
-                                                    "example": "2023-10-24"
+                                                    "example": "lucasgomide@gmail.com"
                                                 },
                                                 "updated_at": {
                                                     "type": "string",
@@ -922,6 +918,137 @@
                     }
                 ]
             },
+            "put": {
+                "tags": [
+                    "Vendedores"
+                ],
+                "summary": "",
+                "description": "Endpoint para atualizar um vendedor.",
+                "operationId": "updateSeller",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do vendedor",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Lucas Gomide Pavão"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso, vendedor atualizado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Lucas Gomide Pavão"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "lucasgomide@gmail.com"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-25T01:57:56.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2023-10-25T01:57:56.000000Z"
+                                                    },
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid token."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Seller doesn't exists."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal error, contact an administrator."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
             "delete": {
                 "tags": [
                     "Vendedores"
@@ -949,6 +1076,22 @@
                                         "data": {
                                             "type": "string",
                                             "example": "Successfully deleted"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Seller doesn't exists."
                                         }
                                     },
                                     "type": "object"
@@ -1021,7 +1164,7 @@
                                                     },
                                                     "email": {
                                                         "type": "string",
-                                                        "example": "2023-10-24"
+                                                        "example": "lucasgomide@gmail.com"
                                                     },
                                                     "updated_at": {
                                                         "type": "string",
