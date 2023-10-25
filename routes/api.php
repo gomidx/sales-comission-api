@@ -28,8 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Seller
     Route::post('seller', [SellerController::class, 'store']);
-    Route::get('seller/{id}', [SellerController::class, 'get']);
     Route::get('seller/list', [SellerController::class, 'list']);
+    Route::get('seller/{id}', [SellerController::class, 'get']);
     Route::put('seller/{id}', [SellerController::class, 'update']);
     Route::delete('seller/{id}', [SellerController::class, 'delete']);
 });

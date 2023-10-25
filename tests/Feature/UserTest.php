@@ -44,6 +44,8 @@ class UserTest extends TestCase
 
         Sanctum::actingAs($user);
 
+        User::factory(10)->create();
+
         $response = $this->json(
             'GET',
             '/api/user/list'
@@ -62,7 +64,7 @@ class UserTest extends TestCase
             'PUT',
             '/api/user/' . $user->id,
             [
-                'name' => fake()->name(20)
+                'name' => fake()->name()
             ]
         );
 

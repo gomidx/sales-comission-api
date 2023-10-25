@@ -3,22 +3,23 @@
 namespace App\Services;
 
 use App\Repositories\SellerRepository;
-use Illuminate\Support\Facades\Hash;
 
 class SellerService
 {
-    private SellerRepository $sellerRepository;
+    private SellerRepository $repository;
+
+    public int $httpCode;
 
     public function __construct() 
     {
-        $this->sellerRepository = new SellerRepository;
+        $this->repository = new SellerRepository();
     }
 
     public function createSeller(array $sellerDetails): array
     {
-        $sellerDetails['password'] = Hash::make($sellerDetails['password']);
+        $seller = $this->repository->createSeller($sellerDetails);
 
-        $seller = $this->sellerRepository->createSeller($sellerDetails);
+        $this->httpCode = 201;
 
         return [
             'data' => $seller
@@ -27,7 +28,17 @@ class SellerService
 
     public function getSeller(int $sellerId): array
     {
-        $seller = $this->sellerRepository->getSellerById($sellerId);
+        if (! $this->sellerExists($sellerId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Seller doesn't exists."
+            ];   
+        }
+
+        $seller = $this->repository->getSellerById($sellerId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $seller
@@ -36,7 +47,9 @@ class SellerService
 
     public function getSellers(): array
     {
-        $sellers = $this->sellerRepository->getSellers();
+        $sellers = $this->repository->getSellers();
+
+        $this->httpCode = 200;
 
         return [
             'data' => $sellers
@@ -45,11 +58,19 @@ class SellerService
 
     public function updateSeller(int $sellerId, array $sellerDetails): array
     {
-        if (! empty($sellerDetails['password'])) {
-            $sellerDetails['password'] = Hash::make($sellerDetails['password']);
+        if (! $this->sellerExists($sellerId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Seller doesn't exists."
+            ];
         }
-        
-        $seller = $this->sellerRepository->updateSeller($sellerId, $sellerDetails);
+
+        $this->repository->updateSeller($sellerId, $sellerDetails);
+
+        $seller = $this->repository->getSellerById($sellerId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $seller
@@ -58,10 +79,31 @@ class SellerService
 
     public function deleteSeller(int $sellerId): array
     {
-        $seller = $this->sellerRepository->deleteSeller($sellerId);
+        if (! $this->sellerExists($sellerId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Seller doesn't exists."
+            ];
+        }
+
+        $this->repository->deleteSeller($sellerId);
+
+        $this->httpCode = 200;
 
         return [
-            'data' => $seller
+            'data' => 'Successfully deleted.'
         ];
+    }
+
+    private function sellerExists(int $sellerId): bool
+    {
+        $seller = $this->repository->getSellerById($sellerId);
+
+        if (empty($seller->id)) {
+            return false;
+        }
+
+        return true;
     }
 }

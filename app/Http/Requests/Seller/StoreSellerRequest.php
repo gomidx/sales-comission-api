@@ -13,7 +13,7 @@ class StoreSellerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,7 @@ class StoreSellerRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'email' => 'required|unique:sellers|max:50',
-            'password' => 'required|max:50'
+            'email' => 'required|unique:sellers|max:50'
         ];
     }
 }

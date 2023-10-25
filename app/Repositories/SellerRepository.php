@@ -13,7 +13,7 @@ class SellerRepository implements SellerRepositoryInterface
         return Seller::create($sellerDetails);
     }
 
-    public function getSellerById(int $sellerId): Seller
+    public function getSellerById(int $sellerId): ?Seller
     {
         return Seller::find($sellerId);
     }
@@ -23,9 +23,9 @@ class SellerRepository implements SellerRepositoryInterface
         return Seller::all();
     }
 
-    public function updateSeller(int $sellerId, array $newDetails): Seller
+    public function updateSeller(int $sellerId, array $newDetails): void
     {
-        return Seller::whereId($sellerId)->update($newDetails);
+        Seller::whereId($sellerId)->update($newDetails);
     }
 
     public function deleteSeller(int $sellerId): void

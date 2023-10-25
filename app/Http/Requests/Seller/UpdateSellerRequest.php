@@ -13,7 +13,7 @@ class UpdateSellerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,7 @@ class UpdateSellerRequest extends FormRequest
     {
         return [
             'name' => 'nullable|max:50',
-            'email' => 'nullable|unique:sellers|max:50',
-            'password' => 'nullable|max:50'
+            'email' => 'nullable|unique:sellers|max:50'
         ];
     }
 }

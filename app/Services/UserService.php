@@ -30,6 +30,12 @@ class UserService
 
     public function getUser(int $userId): array
     {
+        $error = $this->checkIfHasError($userId);
+
+        if (! empty($error)) {
+            return $error;
+        }
+
         $user = $this->repository->getUserById($userId);
 
         $this->httpCode = 200;
@@ -92,11 +98,9 @@ class UserService
             $this->httpCode = 404;
 
             return [
-                'error' => "User doesn't exists"
+                'error' => "User doesn't exists."
             ];
-        }
-
-        if (auth()->user()->id !== $userId) {
+        } elseif (auth()->user()->id !== $userId) {
             $this->httpCode = 403;
 
             return [
