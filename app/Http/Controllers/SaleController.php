@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\DefaultException;
 use App\Http\Requests\Sale\StoreSaleRequest;
-use App\Http\Requests\Sale\UpdateSaleRequest;
 use App\Services\SaleService;
 use Illuminate\Http\JsonResponse;
 
@@ -19,65 +19,55 @@ class SaleController extends Controller
     public function store(StoreSaleRequest $request): JsonResponse
     {
         try {
-            $sale = $this->service->createSale($request->validated());
+            $data = $this->service->createSale($request->validated());
 
-            return response()->json($sale, 201);
+            return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
     public function get(int $saleId): JsonResponse
     {
         try {
-            $sale = $this->service->getSale($saleId);
+            $data = $this->service->getSale($saleId);
 
-            return response()->json($sale);
+            return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
     public function list(): JsonResponse
     {
         try {
-            $sales = $this->service->getSales();
+            $data = $this->service->getSales();
 
-            return response()->json($sales);
+            return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
-    public function update(int $saleId, UpdateSaleRequest $request): JsonResponse
+    public function listBySellerId(int $sellerId): JsonResponse
     {
         try {
-            $sale = $this->service->updateSale($saleId, $request->validated());
+            $data = $this->service->getSalesBySellerId($sellerId);
 
-            return response()->json($sale);
+            return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 
     public function delete(int $saleId): JsonResponse
     {
         try {
-            $sale = $this->service->deleteSale($saleId);
+            $data = $this->service->deleteSale($saleId);
 
-            return response()->json($sale);
+            return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {
-            return response()->json([
-                'error' => $th->getMessage()
-            ], 500);
+            return DefaultException::make($th);
         }
     }
 }

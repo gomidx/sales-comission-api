@@ -6,16 +6,20 @@ use App\Repositories\SaleRepository;
 
 class SaleService
 {
-    private SaleRepository $saleRepository;
+    private SaleRepository $repository;
+
+    public int $httpCode;
 
     public function __construct() 
     {
-        $this->saleRepository = new SaleRepository;
+        $this->repository = new SaleRepository;
     }
 
     public function createSale(array $saleDetails): array
     {
-        $sale = $this->saleRepository->createSale($saleDetails);
+        $sale = $this->repository->createSale($saleDetails);
+
+        $this->httpCode = 201;
 
         return [
             'data' => $sale
@@ -24,7 +28,9 @@ class SaleService
 
     public function getSale(int $saleId): array
     {
-        $sale = $this->saleRepository->getSaleById($saleId);
+        $sale = $this->repository->getSaleById($saleId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $sale
@@ -33,7 +39,9 @@ class SaleService
 
     public function getSalesBySellerId(int $sellerId): array
     {
-        $sales = $this->saleRepository->getSalesBySellerId($sellerId);
+        $sales = $this->repository->getSalesBySellerId($sellerId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $sales
@@ -42,28 +50,42 @@ class SaleService
 
     public function getSales(): array
     {
-        $sales = $this->saleRepository->getSales();
+        $sales = $this->repository->getSales();
+
+        $this->httpCode = 200;
 
         return [
             'data' => $sales
         ];
     }
 
-    public function updateSale(int $saleId, array $saleDetails): array
+    public function deleteSale(int $saleId): array
     {
-        $sale = $this->saleRepository->updateSale($saleId, $saleDetails);
+        if (! $this->saleExists($saleId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Sale doesn't exists."
+            ];
+        }
+
+        $sale = $this->repository->deleteSale($saleId);
+
+        $this->httpCode = 200;
 
         return [
             'data' => $sale
         ];
     }
 
-    public function deleteSale(int $saleId): array
+    private function saleExists(int $saleId): bool
     {
-        $sale = $this->saleRepository->deleteSale($saleId);
+        $sale = $this->repository->getSaleById($saleId);
 
-        return [
-            'data' => $sale
-        ];
+        if (empty($sale->id)) {
+            return false;
+        }
+
+        return true;
     }
 }

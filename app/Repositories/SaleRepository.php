@@ -13,24 +13,19 @@ class SaleRepository implements SaleRepositoryInterface
         return Sale::create($sellerDetails);
     }
 
-    public function getSaleById(int $saleId): Sale
+    public function getSaleById(int $saleId): ?Sale
     {
         return Sale::find($saleId);
     }
 
     public function getSalesBySellerId(int $sellerId)
     {
-        return Sale::where('seller_id', $sellerId)->all();
+        return Sale::where('seller_id', $sellerId)->get();
     }
 
     public function getSales(): Collection
     {
         return Sale::all();
-    }
-
-    public function updateSale(int $sellerId, array $newDetails): Sale
-    {
-        return Sale::whereId($sellerId)->update($newDetails);
     }
 
     public function deleteSale(int $sellerId): void

@@ -13,7 +13,7 @@ class StoreSaleRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class StoreSaleRequest extends FormRequest
     public function rules()
     {
         return [
-            'total_value' => 'required|numeric|max:50',
+            'total_value' => 'required|numeric',
             'date_of_sale' => 'required',
             'seller_id' => 'required|max:50'
         ];
