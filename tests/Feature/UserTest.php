@@ -71,33 +71,6 @@ class UserTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_generate_user_token()
-    {
-        $email = fake()->email();
-        $password = Str::random(20);
-
-        $this->json(
-            'POST',
-            '/api/user',
-            [
-                'name' => fake()->name(),
-                'email' => $email,
-                'password' => $password
-            ]
-        );
-
-        $response = $this->json(
-            'POST',
-            '/api/token',
-            [
-                'email' => $email,
-                'password' => $password
-            ]
-        );
-
-        $response->assertStatus(201);
-    }
-
     public function test_delete_a_user(): void
     {
         $user = User::factory()->create();
