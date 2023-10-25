@@ -18,8 +18,11 @@ return new class extends Migration
             $table->decimal('total_value', 10, 2);
             $table->date('date_of_sale');
             $table->unsignedBigInteger('seller_id');
-            $table->foreign('seller_id')->references('id')->on('sellers');
             $table->timestamps();
+            $table->foreign('seller_id')
+                ->references('id')
+                ->on('sellers')
+                ->cascadeOnDelete();
         });
     }
 
