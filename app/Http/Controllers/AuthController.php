@@ -21,18 +21,18 @@ class AuthController extends Controller
         try {
             $token = $this->service->generateToken($request->validated());
 
-            return response()->json($token, 201);
+            return response()->json($token, $this->service->httpCode);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
     }
 
-    public function logout(int $userId): JsonResponse
+    public function logout(): JsonResponse
     {
         try {
-            $response = $this->service->logout($userId);
+            $response = $this->service->logout();
 
-            return response()->json($response, 201);
+            return response()->json($response, $this->service->httpCode);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

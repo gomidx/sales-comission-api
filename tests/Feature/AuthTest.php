@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class AuthTest extends TestCase
 {
-    public function test_generate_token()
+    public function test_generate_token(): void
     {
         $email = fake()->email();
         $password = Str::random(20);
@@ -31,6 +31,18 @@ class AuthTest extends TestCase
             ]
         );
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
+    }
+
+    public function test_logout(): void
+    {
+        $this->createUser();
+
+        $response = $this->json(
+            'GET',
+            '/api/logout'
+        );
+
+        $response->assertStatus(200);
     }
 }

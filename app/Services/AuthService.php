@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 class AuthService
 {
 	private UserRepository $userRepository;
+
+	public int $httpCode;
  
     public function __construct() 
     {
@@ -22,13 +24,17 @@ class AuthService
 			$checkPass = Hash::check($userDetails['password'], $user->password);
 
 			if (! $checkPass) {
+				$this->httpCode = 422;
+
 				return [
-					'error' => 'Senha inválida.'
+					'error' => 'Invalid password.'
 				];
 			}
 		} else {
+			$this->httpCode = 404;
+
 			return [
-				'error' => 'Usuário não encontrado.'
+				'error' => "User doesn't exists."
 			];
 		}
 
@@ -36,16 +42,20 @@ class AuthService
 
 		$token = $user->createToken($userDetails['email'])->plainTextToken;
 
+		$this->httpCode = 200;
+
 		return [
 			'data' => $token
 		];
 	}
 
-	public function logout(int $userId): array
+	public function logout(): array
 	{
-		$user = $this->userRepository->getUserById($userId);
+		$user = $this->userRepository->getUserById(auth()->user()->id);
 
 		$user->tokens()->delete();
+
+		$this->httpCode = 200;
 
 		return [
 			'data' => 'Successfully disconnected.'
