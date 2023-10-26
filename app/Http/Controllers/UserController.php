@@ -119,7 +119,7 @@ class UserController extends Controller
 	 * 		 )
      * )
      */
-    public function get(int $userEmail): JsonResponse
+    public function get(string $userEmail): JsonResponse
     {
         try {
             $data = $this->service->getUser($userEmail);

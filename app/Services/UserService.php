@@ -28,7 +28,7 @@ class UserService
         ];
     }
 
-    public function getUser(int $userEmail): array
+    public function getUser(string $userEmail): array
     {
         $error = $this->checkIfHasError($userEmail);
 
@@ -45,7 +45,7 @@ class UserService
         ];
     }
 
-    private function checkIfHasError(int $userEmail): array
+    private function checkIfHasError(string $userEmail): array
     {
         if (! $this->userExists($userEmail)) {
             $this->httpCode = 404;
@@ -64,7 +64,7 @@ class UserService
         return [];
     }
 
-    private function userExists(int $userEmail): bool
+    private function userExists(string $userEmail): bool
     {
         $user = $this->repository->getUserByEmail($userEmail);
 
