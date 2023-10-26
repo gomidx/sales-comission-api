@@ -28,15 +28,15 @@ class UserService
         ];
     }
 
-    public function getUser(int $userId): array
+    public function getUser(int $userEmail): array
     {
-        $error = $this->checkIfHasError($userId);
+        $error = $this->checkIfHasError($userEmail);
 
         if (! empty($error)) {
             return $error;
         }
 
-        $user = $this->repository->getUserById($userId);
+        $user = $this->repository->getUserByEmail($userEmail);
 
         $this->httpCode = 200;
 
@@ -45,15 +45,15 @@ class UserService
         ];
     }
 
-    private function checkIfHasError(int $userId): array
+    private function checkIfHasError(int $userEmail): array
     {
-        if (! $this->userExists($userId)) {
+        if (! $this->userExists($userEmail)) {
             $this->httpCode = 404;
 
             return [
                 'error' => "User doesn't exists."
             ];
-        } elseif (auth()->user()->id !== $userId) {
+        } elseif (auth()->user()->email !== $userEmail) {
             $this->httpCode = 403;
 
             return [
@@ -64,9 +64,9 @@ class UserService
         return [];
     }
 
-    private function userExists(int $userId): bool
+    private function userExists(int $userEmail): bool
     {
-        $user = $this->repository->getUserById($userId);
+        $user = $this->repository->getUserByEmail($userEmail);
 
         if (empty($user->id)) {
             return false;

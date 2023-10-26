@@ -68,7 +68,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/user/{id}",
+     *      path="/user/{email}",
      *      operationId="getUser",
      *      tags={"Administradores"},
      *      summary="",
@@ -76,10 +76,10 @@ class UserController extends Controller
      *      security={{"sanctum": {}}},
      *      @OA\Parameter(
      *          name="id",
-     *          description="ID do administrador",
+     *          description="E-mail do administrador",
      *          in="path",
      *          @OA\Schema(
-     *              type="int"
+     *              type="string"
      *          )
      *      ),
      *      @OA\Response(
@@ -119,10 +119,10 @@ class UserController extends Controller
 	 * 		 )
      * )
      */
-    public function get(int $userId): JsonResponse
+    public function get(int $userEmail): JsonResponse
     {
         try {
-            $data = $this->service->getUser($userId);
+            $data = $this->service->getUser($userEmail);
 
             return response()->json($data, $this->service->httpCode);
         } catch (\Throwable $th) {

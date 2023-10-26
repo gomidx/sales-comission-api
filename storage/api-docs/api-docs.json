@@ -1321,7 +1321,7 @@
                 }
             }
         },
-        "/user/{id}": {
+        "/user/{email}": {
             "get": {
                 "tags": [
                     "Administradores"
@@ -1333,9 +1333,9 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID do administrador",
+                        "description": "E-mail do administrador",
                         "schema": {
-                            "type": "int"
+                            "type": "string"
                         }
                     }
                 ],
