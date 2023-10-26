@@ -10,7 +10,7 @@ class SaleService
 
     public int $httpCode;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->repository = new SaleRepository;
     }
@@ -57,6 +57,10 @@ class SaleService
     public function getSales(): array
     {
         $sales = $this->repository->getSales();
+
+        foreach ($sales as $key => $sale) {
+            $sales[$key]['seller_name'] = $sale->seller->name;
+        }
 
         $this->httpCode = 200;
 
