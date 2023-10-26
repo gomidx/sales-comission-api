@@ -47,6 +47,10 @@ class SaleService
     {
         $sales = $this->repository->getSalesBySellerId($sellerId);
 
+        foreach ($sales as $key => $sale) {
+            $sales[$key]['seller_name'] = $sale->seller->name;
+        }
+
         $this->httpCode = 200;
 
         return [
