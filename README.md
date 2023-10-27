@@ -1,4 +1,4 @@
-## API do Sistema de Vendas e Comissões
+## API do projeto Sistema de Vendas e Comissões
 
 Para executar a API é necessário rodar os seguintes comandos:
 
