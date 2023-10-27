@@ -30,7 +30,7 @@ class UserTest extends TestCase
 
         $response = $this->json(
             'GET',
-            '/api/user/' . $user->id
+            '/api/user/' . $user->email
         );
 
         $response->assertStatus(200);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\UserController;
@@ -32,6 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('seller/{id}', [SellerController::class, 'get']);
     Route::put('seller/{id}', [SellerController::class, 'update']);
     Route::delete('seller/{id}', [SellerController::class, 'delete']);
+
+    // Email
+    Route::get('email/sellers/sales', [EmailController::class, 'sellerSalesEmail']);
+    Route::get('email/sales', [EmailController::class, 'salesEmail']);
 
     // Sale
     Route::post('sale', [SaleController::class, 'store']);

@@ -10,7 +10,7 @@ class SellerService
 
     public int $httpCode;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->repository = new SellerRepository();
     }
