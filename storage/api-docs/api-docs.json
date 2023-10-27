@@ -176,6 +176,289 @@
                 ]
             }
         },
+        "/seller/{id}/email": {
+            "get": {
+                "tags": [
+                    "Vendedores"
+                ],
+                "summary": "",
+                "description": "Endpoint para consultar os dados do e-mail de relatório de vendas do vendedor.",
+                "operationId": "getSellerSales",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do vendedor",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso, dados encontrados.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "totalSales": {
+                                                    "type": "number",
+                                                    "example": "6"
+                                                },
+                                                "totalValue": {
+                                                    "type": "number",
+                                                    "example": "598"
+                                                },
+                                                "totalComission": {
+                                                    "type": "number",
+                                                    "example": "50.83"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Seller doesn't exists."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid token."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal error, contact an administrator."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/seller/list/email": {
+            "get": {
+                "tags": [
+                    "Vendedores"
+                ],
+                "summary": "",
+                "description": "Endpoint para consultar os dados do e-mail de relatório de vendas de todos os vendedores.",
+                "operationId": "getSellersSales",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do vendedor",
+                        "schema": {
+                            "type": "int"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso, dados encontrados.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "lucas@gmail.com": {
+                                                    "properties": {
+                                                        "totalSales": {
+                                                            "type": "number",
+                                                            "example": "6"
+                                                        },
+                                                        "totalValue": {
+                                                            "type": "number",
+                                                            "example": "598"
+                                                        },
+                                                        "totalComission": {
+                                                            "type": "number",
+                                                            "example": "50.83"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "joao@gmail.com": {
+                                                    "properties": {
+                                                        "totalSales": {
+                                                            "type": "number",
+                                                            "example": "9"
+                                                        },
+                                                        "totalValue": {
+                                                            "type": "number",
+                                                            "example": "843"
+                                                        },
+                                                        "totalComission": {
+                                                            "type": "number",
+                                                            "example": "71.65"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Seller doesn't exists."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token inválido.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Invalid token."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal error, contact an administrator."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sale/list/email": {
+            "get": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "",
+                "description": "Endpoint para consultar os dados do e-mail de relatório de todas as vendas.",
+                "operationId": "getAllSellersSales",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso, dados encontrados.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "totalSales": {
+                                                    "type": "number",
+                                                    "example": "6"
+                                                },
+                                                "totalValue": {
+                                                    "type": "number",
+                                                    "example": "598"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal error, contact an administrator."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/sale": {
             "post": {
                 "tags": [

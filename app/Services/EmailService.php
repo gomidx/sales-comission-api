@@ -8,47 +8,73 @@ use Illuminate\Database\Eloquent\Collection;
 
 class EmailService
 {
-    private SellerRepository $repository;
+    private SellerRepository $sellerRepository;
+    private SaleRepository $saleRepository;
 
-    public int $httpCode = 400;
+    public int $httpCode;
 
     public function __construct()
     {
-        $this->repository = new SellerRepository();
+        $this->sellerRepository = new SellerRepository();
+        $this->saleRepository = new SaleRepository();
     }
 
-    public function calculateSellerSalesValueForEmail(): array
+    public function calculateAllSalesValueForEmail(): array
+    {
+        $sales = $this->saleRepository->getDaySales();
+
+        $this->httpCode = 200;
+
+        return [
+            'data' => [
+                'totalSales' => count($sales),
+                'totalValue' => $this->calculateTotalSalesValue($sales)
+            ]
+        ];
+    }
+
+    public function calculateSellerSalesValueForEmail(int $sellerId): array
+    {
+        $error = $this->checkIfHasError($sellerId);
+
+        if (! empty($error)) {
+            return $error;
+        }
+
+        $sellerSales = $this->saleRepository->getDaySalesBySellerId($sellerId);
+
+        $this->httpCode = 200;
+
+        return [
+            'data' => [
+                'totalSales' => count($sellerSales),
+                'totalValue' => $this->calculateTotalSalesValue($sellerSales),
+                'totalComission' => $this->calculateSalesComissionValue($sellerSales)
+            ]
+        ];
+    }
+
+    public function calculateSellersSalesValueForEmail(): array
     {
         $result = [];
 
-        $saleRepository = new SaleRepository();
-
-        $sellers = $this->repository->getSellers();
+        $sellers = $this->sellerRepository->getSellers();
 
         foreach ($sellers as $seller) {
-            $sellerSales = $saleRepository->getDaySalesBySellerId($seller->id);
+            $sellerSales = $this->saleRepository->getDaySalesBySellerId($seller->id);
 
-            $result[$seller->id] = [
+            $result[$seller->email] = [
                 'totalSales' => count($sellerSales),
                 'totalValue' => $this->calculateTotalSalesValue($sellerSales),
-                'totalComission' => $this->calculateSalesComissionValue($sellerSales),
+                'totalComission' => $this->calculateSalesComissionValue($sellerSales)
             ];
         }
 
         $this->httpCode = 200;
 
-        return $result;
-    }
-
-    public function calculateAllSalesValueForEmail(): int
-    {
-        $saleRepository = new SaleRepository();
-
-        $sellerSales = $saleRepository->getDaySales();
-
-        $totalValue = $this->calculateTotalSalesValue($sellerSales);
-
-        return $totalValue;
+        return [
+            'data' => $result
+        ];
     }
 
     private function calculateTotalSalesValue(Collection $sellerSales): int
@@ -71,5 +97,29 @@ class EmailService
         }
 
         return $totalComission;
+    }
+
+    private function checkIfHasError(string $sellerId): array
+    {
+        if (! $this->sellerExists($sellerId)) {
+            $this->httpCode = 404;
+
+            return [
+                'error' => "Seller doesn't exists."
+            ];
+        }
+
+        return [];
+    }
+
+    private function sellerExists(string $sellerId): bool
+    {
+        $seller = $this->sellerRepository->getSellerById($sellerId);
+
+        if (empty($seller->id)) {
+            return false;
+        }
+
+        return true;
     }
 }
