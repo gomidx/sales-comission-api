@@ -1,0 +1,50 @@
+version: "3"
+services:
+    db:
+        image: mysql:latest
+        restart: always
+        container_name: sales-comission-system-mysql
+        command: --default-authentication-plugin=mysql_native_password --sql-mode=NO_ENGINE_SUBSTITUTION --join-buffer-size=2M --table-open-cache=50 --open-files-limit=1000
+        environment:
+            MYSQL_DATABASE: "sales-comission-system"
+            MYSQL_USER: "sales-comission-system"
+            MYSQL_PASSWORD: "admin"
+            MYSQL_ROOT_PASSWORD: "admin"
+            TZ: America/Sao_Paulo
+        ports:
+            - "3306:3306"
+        networks:
+            - api
+        volumes:
+            - ./data:/var/lib/mysql
+    adminer:
+        image: dehy/adminer
+        container_name: sales-comission-system-adminer
+        ports:
+            - 8009:80
+        networks:
+            - api
+    app:
+        image: sales-comission-system
+        container_name: sales-comission-system
+        environment:
+            APP_DEBUG: 'true'
+            DB_CONNECTION: "mysql"
+            DB_HOST: "sales-comission-system"
+            DB_DATABASE: "sales-comission-system"
+            DB_USERNAME: "sales-comission-system"
+            DB_PASSWORD: "admin"
+        depends_on:
+            - db
+        links:
+            - db
+        ports:
+            - 8090:80
+        volumes:
+            - ./../tmp:/tmp
+            - ./../core:/var/www
+        networks:
+            - api
+networks:
+    api:
+        driver: bridge
