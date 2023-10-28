@@ -32,12 +32,13 @@ php artisan db:seed
 
 ## 📄 Banco de dados
 
-Para o projeto foi utilizado o MySQL Workbench para gerenciamento, será necessário criar uma conexão no mesmo com informações do banco são:
+Para o projeto foi utilizado o MySQL Workbench para gerenciamento, na Local Instance MySQL80 com as seguintes informações:
 
-* Nome do banco: sales_comission_system
+* Hostname: localhost
+* Port: 3306
 * Username: root
-* Senha: admin
-* Porta: 3306
+* Password: admin
+* Database: sales_comission_system
 
 ## ⚙️ Testes
 
