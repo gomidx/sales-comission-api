@@ -2,6 +2,10 @@
 
 O backend do projeto consiste em uma API Rest que se comunica com um banco MySQL e foi desenvolvido em PHP utilizando o framework Laravel. É possível acessar a documentação da API após rodar o projeto através da rota: http://127.0.0.1:8092/api/documentation
 
+Para a autenticação da API foi utilzado o [Sanctum](https://laravel.com/docs/10.x/sanctum), e é necessário passar um header de Authorization: Bearer {token} nas requisições.
+
+Para autenticar as requisições no Swagger, basta criar um usuário administrador informando o nome, e-mail e senha; após isso gere o bearer token através da rota /token informando o e-mail e a senha.
+
 ## 🚀 Setup do projeto
 
 ### 🔧 Instalação
