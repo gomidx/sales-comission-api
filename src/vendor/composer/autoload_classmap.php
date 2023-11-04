@@ -5397,6 +5397,7 @@ return array(
     'Termwind\\ValueObjects\\Styles' => $vendorDir . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
     'Tests\\Feature\\AuthTest' => $baseDir . '/tests/Feature/AuthTest.php',
+    'Tests\\Feature\\EmailTest' => $baseDir . '/tests/Feature/EmailTest.php',
     'Tests\\Feature\\SaleTest' => $baseDir . '/tests/Feature/SaleTest.php',
     'Tests\\Feature\\SellerTest' => $baseDir . '/tests/Feature/SellerTest.php',
     'Tests\\Feature\\UserTest' => $baseDir . '/tests/Feature/UserTest.php',

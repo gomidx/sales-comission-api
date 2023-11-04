@@ -2,10 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Support\Str;
-use Laravel\Sanctum\Sanctum;
 
 class UserTest extends TestCase
 {
