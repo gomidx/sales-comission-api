@@ -28,6 +28,8 @@ sudo make kill-app
 
 Atenção: todos os comandos devem ser executados na raíz do projeto.
 
+Obs.: caso apresente algum erro na primeira inicialização, derrube a aplicação e a inicie novamente.
+
 ## ⚙️ Testes
 
 Para executar os testes da API, rode o comando:
