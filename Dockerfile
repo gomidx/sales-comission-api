@@ -1,25 +1,19 @@
-# Image PHP
 FROM php:8.2-fpm-alpine
 
-# Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/app-api
 
-# Essentials
-RUN echo "UTC" > /etc/timezone
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apk update && apk add \
+    curl \
+    libpng-dev \
+    libxml2-dev \
+    zip \
+    unzip
 
-RUN apk add --update zip unzip curl php-cli sqlite python3-dev python3 && curl -O https://bootstrap.pypa.io/get-pip.py \
-&& python3 get-pip.py
+RUN docker-php-ext-install pdo pdo_mysql \
+    && apk --no-cache add nodejs npm
 
-# Installing bash
-RUN apk add bash
-RUN sed -i 's/bin\/ash/bin\/bash/g' /etc/passwd
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# Installing PHP
-RUN apk add php-json
+USER root
 
-# Modules Install
-RUN docker-php-ext-install pdo_mysql \
-    pcntl
-
-EXPOSE 80
+RUN chmod 777 -R /var/www/app-api

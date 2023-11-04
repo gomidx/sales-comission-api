@@ -1,6 +1,6 @@
 # API do projeto de cadastro de vendas e cálculo de comissões
 
-O backend do projeto consiste em uma API Rest que se comunica com um banco MySQL e foi desenvolvido em PHP utilizando o framework Laravel. É possível acessar a documentação da API após rodar o projeto através da rota: http://127.0.0.1:8092/api/documentation
+O backend do projeto consiste em uma API Rest que se comunica com um banco MySQL e foi desenvolvido em PHP utilizando o framework Laravel. É possível acessar a documentação da API após rodar o projeto através da rota: http://localhost:8001/api/documentation
 
 Para a documentação foi utilizada a biblioteca [L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger).
 
@@ -10,54 +10,37 @@ Para autenticar as requisições no Swagger, basta criar um usuário administrad
 
 ## 🚀 Setup do projeto
 
-### 🔧 Instalação
+### 🔧 Iniciar
 
-Para instalar as dependências da API, rode o comando:
-
-```
-composer install
-```
-
-Para iniciar a API, rode o comando:
+Para iniciar a API, basta rodar o comando (LINUX):
 
 ```
-php artisan serve --port=8092
+sudo make run-app-with-setup
 ```
 
-Para criar as tabelas no banco rode o comando:
+Com esse comando, as migrations e os seeders também serão executados. A URL base da API será http://localhost:8001/api
+
+Para derrubar a API, execute o comando:
 
 ```
-php artisan migrate
+sudo make kill-app
 ```
 
-Para popular as tabelas do banco rode o comando:
-
-```
-php artisan db:seed
-```
-
-## 📄 Banco de dados
-
-Para o projeto foi utilizado o MySQL Workbench para gerenciamento, na Local Instance MySQL80 com as seguintes informações:
-
-* Hostname: localhost
-* Port: 3306
-* Username: root
-* Password: admin
-* Database: sales_comission_system
+Atenção: todos os comandos devem ser executados na raíz do projeto.
 
 ## ⚙️ Testes
 
 Para executar os testes da API, rode o comando:
 
 ```
-php artisan test
+sudo make run-tests
 ```
 
 ## 🛠️ Construído com
 
 * [PHP](https://www.php.net/)
 * [Laravel](https://laravel.com/)
+* [Docker](https://www.docker.com/)
 
 ---
 Desenvolvido com ❤️ e muito ☕ por [Lucas Gomide](https://github.com/gomidx)
