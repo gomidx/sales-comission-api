@@ -1,2 +1,3 @@
-/src/.phpunit.result.cache
+.phpunit.result.cache
 /mysql
+/vendor
