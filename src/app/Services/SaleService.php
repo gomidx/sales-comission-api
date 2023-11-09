@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\HttpCode;
 use App\Repositories\SaleRepository;
 
 class SaleService
 {
     private SaleRepository $repository;
-
-    public int $httpCode;
 
     public function __construct()
     {
@@ -19,10 +18,11 @@ class SaleService
     {
         $sale = $this->repository->createSale($saleDetails);
 
-        $this->httpCode = 201;
-
         return [
-            'data' => $sale
+            'code' => HttpCode::CREATED->value,
+			'response' => [
+                'data' => $sale
+            ]
         ];
     }
 
@@ -36,10 +36,11 @@ class SaleService
 
         $sale = $this->repository->getSaleById($saleId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $sale
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $sale
+            ]
         ];
     }
 
@@ -51,10 +52,11 @@ class SaleService
             $sales[$key]['seller_name'] = $sale->seller->name;
         }
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $sales
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $sales
+            ]
         ];
     }
 
@@ -66,10 +68,11 @@ class SaleService
             $sales[$key]['seller_name'] = $sale->seller->name;
         }
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $sales
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $sales
+            ]
         ];
     }
 
@@ -83,10 +86,11 @@ class SaleService
 
         $this->repository->deleteSale($saleId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => 'Successfully deleted.'
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => 'Successfully deleted.'
+            ]
         ];
     }
 
@@ -95,10 +99,11 @@ class SaleService
         $sale = $this->repository->getSaleById($saleId);
 
         if (empty($sale->id)) {
-            $this->httpCode = 404;
-
             return [
-                'error' => "Sale doesn't exists."
+                'code' => HttpCode::NOT_FOUND->value,
+			    'response' => [
+                    'error' => "Sale doesn't exists."
+                ]
             ];
         }
 

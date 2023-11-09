@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     private UserService $service;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->service = new UserService();
     }
@@ -60,7 +60,7 @@ class UserController extends Controller
         try {
             $data = $this->service->createUser($request->validated());
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -124,7 +124,7 @@ class UserController extends Controller
         try {
             $data = $this->service->getUser($userEmail);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

@@ -70,7 +70,7 @@ class EmailController extends Controller
         try {
             $data = $this->service->calculateSellerSalesValueForEmail($sellerId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -138,7 +138,7 @@ class EmailController extends Controller
         try {
             $data = $this->service->calculateSellersSalesValueForEmail();
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -175,7 +175,7 @@ class EmailController extends Controller
         try {
             $data = $this->service->calculateAllSalesValueForEmail();
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

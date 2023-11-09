@@ -67,7 +67,7 @@ class SellerController extends Controller
         try {
             $data = $this->service->createSeller($request->validated());
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -130,7 +130,7 @@ class SellerController extends Controller
         try {
             $data = $this->service->getSeller($sellerId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -180,7 +180,7 @@ class SellerController extends Controller
         try {
             $data = $this->service->getSellers();
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -251,7 +251,7 @@ class SellerController extends Controller
         try {
             $data = $this->service->updateSeller($sellerId, $request->validated());
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -308,7 +308,7 @@ class SellerController extends Controller
         try {
             $data = $this->service->deleteSeller($sellerId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

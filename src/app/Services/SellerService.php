@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\HttpCode;
 use App\Repositories\SellerRepository;
 
 class SellerService
 {
     private SellerRepository $repository;
-
-    public int $httpCode;
 
     public function __construct()
     {
@@ -19,10 +18,11 @@ class SellerService
     {
         $seller = $this->repository->createSeller($sellerDetails);
 
-        $this->httpCode = 201;
-
         return [
-            'data' => $seller
+            'code' => HttpCode::CREATED->value,
+			'response' => [
+                'data' => $seller
+            ]
         ];
     }
 
@@ -36,10 +36,11 @@ class SellerService
 
         $seller = $this->repository->getSellerById($sellerId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $seller
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $seller
+            ]
         ];
     }
 
@@ -47,10 +48,11 @@ class SellerService
     {
         $sellers = $this->repository->getSellers();
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $sellers
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $sellers
+            ]
         ];
     }
 
@@ -66,10 +68,11 @@ class SellerService
 
         $seller = $this->repository->getSellerById($sellerId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $seller
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $seller
+            ]
         ];
     }
 
@@ -83,10 +86,11 @@ class SellerService
 
         $this->repository->deleteSeller($sellerId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => 'Successfully deleted.'
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => 'Successfully deleted.'
+            ]
         ];
     }
 
@@ -95,10 +99,11 @@ class SellerService
         $seller = $this->repository->getSellerById($sellerId);
 
         if (empty($seller->id)) {
-            $this->httpCode = 404;
-
             return [
-                'error' => "Seller doesn't exists."
+                'code' => HttpCode::NOT_FOUND->value,
+			    'response' => [
+                    'error' => "Seller doesn't exists."
+                ]
             ];
         }
 

@@ -64,9 +64,9 @@ class AuthController extends Controller
     public function generateToken(LoginRequest $request): JsonResponse
     {
         try {
-            $token = $this->service->generateToken($request->validated());
+            $data = $this->service->generateToken($request->validated());
 
-            return response()->json($token, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -106,9 +106,9 @@ class AuthController extends Controller
     public function logout(): JsonResponse
     {
         try {
-            $response = $this->service->logout();
+            $data = $this->service->logout();
 
-            return response()->json($response, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

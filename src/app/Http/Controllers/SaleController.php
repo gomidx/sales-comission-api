@@ -6,13 +6,12 @@ use App\Exceptions\DefaultException;
 use App\Http\Requests\Sale\StoreSaleRequest;
 use App\Services\SaleService;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class SaleController extends Controller
 {
     private SaleService $service;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->service = new SaleService();
     }
@@ -69,7 +68,7 @@ class SaleController extends Controller
         try {
             $data = $this->service->createSale($request->validated());
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -133,7 +132,7 @@ class SaleController extends Controller
         try {
             $data = $this->service->getSale($saleId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -184,7 +183,7 @@ class SaleController extends Controller
         try {
             $data = $this->service->getSales();
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -243,7 +242,7 @@ class SaleController extends Controller
         try {
             $data = $this->service->getSalesBySellerId($sellerId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }
@@ -293,7 +292,7 @@ class SaleController extends Controller
         try {
             $data = $this->service->deleteSale($saleId);
 
-            return response()->json($data, $this->service->httpCode);
+            return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
             return DefaultException::make($th);
         }

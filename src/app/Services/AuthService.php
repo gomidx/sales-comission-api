@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\HttpCode;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
@@ -9,9 +10,7 @@ class AuthService
 {
 	private UserRepository $userRepository;
 
-	public int $httpCode;
- 
-    public function __construct() 
+    public function __construct()
     {
         $this->userRepository = new UserRepository;
     }
@@ -24,17 +23,19 @@ class AuthService
 			$checkPass = Hash::check($userDetails['password'], $user->password);
 
 			if (! $checkPass) {
-				$this->httpCode = 422;
-
 				return [
-					'error' => 'Invalid password.'
+					'code' => HttpCode::UNPROCESSABLE_ENTITY->value,
+					'response' => [
+						'error' => 'Invalid password.'
+					]
 				];
 			}
 		} else {
-			$this->httpCode = 404;
-
 			return [
-				'error' => "User doesn't exists."
+				'code' => HttpCode::NOT_FOUND->value,
+				'response' => [
+					'error' => "User doesn't exists."
+				]
 			];
 		}
 
@@ -42,10 +43,11 @@ class AuthService
 
 		$token = $user->createToken($userDetails['email'])->plainTextToken;
 
-		$this->httpCode = 200;
-
 		return [
-			'data' => $token
+			'code' => HttpCode::SUCCESS->value,
+			'response' => [
+				'data' => $token
+			]
 		];
 	}
 
@@ -55,10 +57,11 @@ class AuthService
 
 		$user->tokens()->delete();
 
-		$this->httpCode = 200;
-
 		return [
-			'data' => 'Successfully disconnected.'
+			'code' => HttpCode::SUCCESS->value,
+			'response' => [
+				'data' => 'Successfully disconnected.'
+			]
 		];
 	}
 }

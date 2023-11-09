@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
+use App\Enums\HttpCode;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
     private UserRepository $repository;
-    public int $httpCode;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->repository = new UserRepository;
     }
@@ -21,10 +21,11 @@ class UserService
 
         $user = $this->repository->createUser($userDetails);
 
-        $this->httpCode = 201;
-
         return [
-            'data' => $user
+            'code' => HttpCode::CREATED->value,
+			'response' => [
+                'data' => $user
+            ]
         ];
     }
 
@@ -38,26 +39,29 @@ class UserService
 
         $user = $this->repository->getUserByEmail($userEmail);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $user
+            'code' => HttpCode::SUCCESS->value,
+			'response' => [
+                'data' => $user
+            ]
         ];
     }
 
     private function checkIfHasError(string $userEmail): array
     {
         if (! $this->userExists($userEmail)) {
-            $this->httpCode = 404;
-
             return [
-                'error' => "User doesn't exists."
+                'code' => HttpCode::NOT_FOUND->value,
+			    'response' => [
+                    'error' => "User doesn't exists."
+                ]
             ];
         } elseif (auth()->user()->email !== $userEmail) {
-            $this->httpCode = 403;
-
             return [
-                'error' => "You don't have permission to update this user"
+                'code' => HttpCode::FORBIDDEN->value,
+			    'response' => [
+                    'error' => "You don't have permission to update this user"
+                ]
             ];
         }
 

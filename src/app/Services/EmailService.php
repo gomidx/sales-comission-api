@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\HttpCode;
 use App\Repositories\SaleRepository;
 use App\Repositories\SellerRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,8 +11,6 @@ class EmailService
 {
     private SellerRepository $sellerRepository;
     private SaleRepository $saleRepository;
-
-    public int $httpCode;
 
     public function __construct()
     {
@@ -23,12 +22,13 @@ class EmailService
     {
         $sales = $this->saleRepository->getDaySales();
 
-        $this->httpCode = 200;
-
         return [
-            'data' => [
-                'totalSales' => count($sales),
-                'totalValue' => $this->calculateTotalSalesValue($sales)
+            'code' => HttpCode::SUCCESS->value,
+            'response' => [
+                'data' => [
+                    'totalSales' => count($sales),
+                    'totalValue' => $this->calculateTotalSalesValue($sales)
+                ]
             ]
         ];
     }
@@ -43,13 +43,14 @@ class EmailService
 
         $sellerSales = $this->saleRepository->getDaySalesBySellerId($sellerId);
 
-        $this->httpCode = 200;
-
         return [
-            'data' => [
-                'totalSales' => count($sellerSales),
-                'totalValue' => $this->calculateTotalSalesValue($sellerSales),
-                'totalComission' => $this->calculateSalesComissionValue($sellerSales)
+            'code' => HttpCode::SUCCESS->value,
+            'response' => [
+                'data' => [
+                    'totalSales' => count($sellerSales),
+                    'totalValue' => $this->calculateTotalSalesValue($sellerSales),
+                    'totalComission' => $this->calculateSalesComissionValue($sellerSales)
+                ]
             ]
         ];
     }
@@ -70,10 +71,11 @@ class EmailService
             ];
         }
 
-        $this->httpCode = 200;
-
         return [
-            'data' => $result
+            'code' => HttpCode::SUCCESS->value,
+            'response' => [
+                'data' => $result
+            ]
         ];
     }
 
@@ -102,10 +104,11 @@ class EmailService
     private function checkIfHasError(string $sellerId): array
     {
         if (! $this->sellerExists($sellerId)) {
-            $this->httpCode = 404;
-
             return [
-                'error' => "Seller doesn't exists."
+                'code' => HttpCode::NOT_FOUND->value,
+                'response' => [
+                    'error' => "Seller doesn't exists."
+                ]
             ];
         }
 
