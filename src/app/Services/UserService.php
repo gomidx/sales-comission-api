@@ -56,13 +56,6 @@ class UserService
                     'error' => "User doesn't exists."
                 ]
             ];
-        } elseif (auth()->user()->email !== $userEmail) {
-            return [
-                'code' => HttpCode::FORBIDDEN->value,
-			    'response' => [
-                    'error' => "You don't have permission to update this user"
-                ]
-            ];
         }
 
         return [];
