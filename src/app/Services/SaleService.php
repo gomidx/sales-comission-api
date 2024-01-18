@@ -45,7 +45,7 @@ class SaleService
             $sales[$key]['seller_name'] = $sale->seller->name;
         }
 
-        return $this->ok($sale);
+        return $this->ok($sales);
     }
 
     public function getSales(): array

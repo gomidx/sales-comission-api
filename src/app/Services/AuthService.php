@@ -15,7 +15,7 @@ class AuthService
 
     public function __construct()
     {
-        $this->userRepository = new UserRepository;
+        $this->userRepository = new UserRepository();
     }
 
 	public function generateToken(array $userDetails): array
