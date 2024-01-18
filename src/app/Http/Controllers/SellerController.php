@@ -310,7 +310,7 @@ class SellerController extends Controller
 	 * 		 )
      * )
      */
-    public function delete(int $sellerId): JsonResponse
+    public function destroy(int $sellerId): JsonResponse
     {
         try {
             $data = $this->service->deleteSeller($sellerId);
