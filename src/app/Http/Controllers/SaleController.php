@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DefaultException;
+use App\Helpers\Http;
 use App\Http\Requests\Sale\StoreSaleRequest;
 use App\Services\SaleService;
 use Illuminate\Http\JsonResponse;
 
 class SaleController extends Controller
 {
+    use Http;
+
     private SaleService $service;
 
     public function __construct()
@@ -70,7 +72,9 @@ class SaleController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -127,14 +131,16 @@ class SaleController extends Controller
 	 * 		 )
      * )
      */
-    public function get(int $saleId): JsonResponse
+    public function show(int $saleId): JsonResponse
     {
         try {
             $data = $this->service->getSale($saleId);
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -185,11 +191,13 @@ class SaleController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
-    /**
+    /**s
      * @OA\Get(
      *      path="/seller/{id}/sales",
      *      operationId="getSalesBySeller",
@@ -244,7 +252,9 @@ class SaleController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -287,14 +297,16 @@ class SaleController extends Controller
 	 * 		 )
      * )
      */
-    public function delete(int $saleId): JsonResponse
+    public function destroy(int $saleId): JsonResponse
     {
         try {
             $data = $this->service->deleteSale($saleId);
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 }

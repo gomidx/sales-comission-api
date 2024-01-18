@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DefaultException;
 use App\Http\Requests\Seller\UpdateSellerRequest;
 use App\Http\Requests\Seller\StoreSellerRequest;
 use App\Services\SellerService;
@@ -69,7 +68,9 @@ class SellerController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -125,14 +126,16 @@ class SellerController extends Controller
 	 * 		 )
      * )
      */
-    public function get(int $sellerId): JsonResponse
+    public function show(int $sellerId): JsonResponse
     {
         try {
             $data = $this->service->getSeller($sellerId);
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -182,7 +185,9 @@ class SellerController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -253,7 +258,9 @@ class SellerController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -310,7 +317,9 @@ class SellerController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 }

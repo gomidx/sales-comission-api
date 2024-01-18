@@ -15,7 +15,7 @@ class CustomAuthException extends AuthenticationException
     public function render(): object
     {
         return response()->json([
-			'error'   => $this->message
+			'data'   => $this->message
 		], Response::HTTP_UNAUTHORIZED);
     }
 }

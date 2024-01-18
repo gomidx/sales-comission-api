@@ -3,12 +3,15 @@
 namespace App\Services;
 
 use App\Enums\HttpCode;
+use App\Helpers\Http;
 use App\Repositories\SaleRepository;
 use App\Repositories\SellerRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class EmailService
 {
+    use Http;
+
     private SellerRepository $sellerRepository;
     private SaleRepository $saleRepository;
 
@@ -22,15 +25,12 @@ class EmailService
     {
         $sales = $this->saleRepository->getDaySales();
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-            'response' => [
-                'data' => [
-                    'totalSales' => count($sales),
-                    'totalValue' => $this->calculateTotalSalesValue($sales)
-                ]
-            ]
+        $data = [
+            'totalSales' => count($sales),
+            'totalValue' => $this->calculateTotalSalesValue($sales)
         ];
+
+        return $this->ok($data);
     }
 
     public function calculateSellerSalesValueForEmail(int $sellerId): array
@@ -43,16 +43,13 @@ class EmailService
 
         $sellerSales = $this->saleRepository->getDaySalesBySellerId($sellerId);
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-            'response' => [
-                'data' => [
-                    'totalSales' => count($sellerSales),
-                    'totalValue' => $this->calculateTotalSalesValue($sellerSales),
-                    'totalComission' => $this->calculateSalesComissionValue($sellerSales)
-                ]
-            ]
+        $data = [
+            'totalSales' => count($sellerSales),
+            'totalValue' => $this->calculateTotalSalesValue($sellerSales),
+            'totalComission' => $this->calculateSalesComissionValue($sellerSales)
         ];
+
+        return $this->ok($data);
     }
 
     public function calculateSellersSalesValueForEmail(): array
@@ -71,12 +68,7 @@ class EmailService
             ];
         }
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-            'response' => [
-                'data' => $result
-            ]
-        ];
+        return $this->ok($result);
     }
 
     private function calculateTotalSalesValue(Collection $sellerSales): int
@@ -104,12 +96,7 @@ class EmailService
     private function checkIfHasError(string $sellerId): array
     {
         if (! $this->sellerExists($sellerId)) {
-            return [
-                'code' => HttpCode::NOT_FOUND->value,
-                'response' => [
-                    'error' => "Seller doesn't exists."
-                ]
-            ];
+            return $this->notFound("Seller doesn't exists.");
         }
 
         return [];

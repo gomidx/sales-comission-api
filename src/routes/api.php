@@ -18,28 +18,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/token', [AuthController::class, 'generateToken']);
-Route::post('/user', [UserController::class, 'store']);
-Route::get('/seller/list/email', [EmailController::class, 'sellersSalesEmail']);
+Route::post('/token', [AuthController::class, 'generateToken'])->name('auth.generateToken');
+Route::post('/user', [UserController::class, 'store'])->name('user.store');
 
 Route::middleware('auth:sanctum')->group(function () {
-    // User (Administrador)
-    Route::get('/user/{id}', [UserController::class, 'get']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('user', UserController::class)->except('store');
+    Route::apiResource('sale', SaleController::class);
+    Route::apiResource('seller', SellerController::class);
 
-    // Seller
-    Route::post('/seller', [SellerController::class, 'store']);
-    Route::get('/seller/list', [SellerController::class, 'list']);
-    Route::get('/seller/{id}/sales', [SaleController::class, 'listBySellerId']);
-    Route::get('/seller/{id}', [SellerController::class, 'get']);
-    Route::put('/seller/{id}', [SellerController::class, 'update']);
-    Route::delete('/seller/{id}', [SellerController::class, 'delete']);
-    Route::get('/seller/{id}/email', [EmailController::class, 'sellerSalesEmail']);
+    Route::prefix('/sale')->group(function () {
+        Route::get('/list', [SaleController::class, 'list'])->name('sale.email');
+        Route::get('/list/email', [EmailController::class, 'allSalesEmail'])->name('sale.email');
+    });
 
-    // Sale
-    Route::post('/sale', [SaleController::class, 'store']);
-    Route::get('/sale/list/email', [EmailController::class, 'allSalesEmail']);
-    Route::get('/sale/list', [SaleController::class, 'list']);
-    Route::get('/sale/{id}', [SaleController::class, 'get']);
-    Route::delete('/sale/{id}', [SaleController::class, 'delete']);
+    Route::prefix('/seller')->group(function () {
+        Route::get('/list', [SellerController::class, 'list'])->name('seller.list');
+        Route::get('/{id}/sales', [SaleController::class, 'sellerSalesEmail'])->name('seller.salesBySellerId');
+        Route::get('/{id}/email', [EmailController::class, 'sellerSalesEmail'])->name('seller.email');
+    });
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });

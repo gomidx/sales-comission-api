@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DefaultException;
-use App\Http\Requests\User\UpdateUserRequest;
+use App\Helpers\Http;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    use Http;
+
     private UserService $service;
 
     public function __construct()
@@ -62,7 +63,10 @@ class UserController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            dd($th->getMessage());
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -119,14 +123,16 @@ class UserController extends Controller
 	 * 		 )
      * )
      */
-    public function get(string $userEmail): JsonResponse
+    public function show(string $userEmail): JsonResponse
     {
         try {
             $data = $this->service->getUser($userEmail);
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 }

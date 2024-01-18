@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DefaultException;
+use App\Helpers\Http;
 use App\Services\EmailService;
 use Illuminate\Http\JsonResponse;
 
 class EmailController extends Controller
 {
+    use Http;
+
     private EmailService $service;
 
     public function __construct()
@@ -72,7 +74,9 @@ class EmailController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -140,7 +144,9 @@ class EmailController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -177,7 +183,9 @@ class EmailController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 }

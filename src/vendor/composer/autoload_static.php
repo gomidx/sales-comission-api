@@ -551,9 +551,10 @@ class ComposerStaticInit6fc59c301dc4db0ab6a3dfbc3d2c4077
 
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Enums\\HttpCode' => __DIR__ . '/../..' . '/app/Enums/HttpCode.php',
         'App\\Exceptions\\CustomAuthException' => __DIR__ . '/../..' . '/app/Exceptions/CustomAuthException.php',
-        'App\\Exceptions\\DefaultException' => __DIR__ . '/../..' . '/app/Exceptions/DefaultException.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Helpers\\Http' => __DIR__ . '/../..' . '/app/Helpers/Http.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmailController.php',
@@ -5940,7 +5941,6 @@ class ComposerStaticInit6fc59c301dc4db0ab6a3dfbc3d2c4077
         'Termwind\\ValueObjects\\Style' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Style.php',
         'Termwind\\ValueObjects\\Styles' => __DIR__ . '/..' . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
         'Tests\\CreatesApplication' => __DIR__ . '/../..' . '/tests/CreatesApplication.php',
-        'Tests\\Feature\\AuthTest' => __DIR__ . '/../..' . '/tests/Feature/AuthTest.php',
         'Tests\\Feature\\EmailTest' => __DIR__ . '/../..' . '/tests/Feature/EmailTest.php',
         'Tests\\Feature\\SaleTest' => __DIR__ . '/../..' . '/tests/Feature/SaleTest.php',
         'Tests\\Feature\\SellerTest' => __DIR__ . '/../..' . '/tests/Feature/SellerTest.php',

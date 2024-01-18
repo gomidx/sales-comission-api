@@ -7,9 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Enums\\HttpCode' => $baseDir . '/app/Enums/HttpCode.php',
     'App\\Exceptions\\CustomAuthException' => $baseDir . '/app/Exceptions/CustomAuthException.php',
-    'App\\Exceptions\\DefaultException' => $baseDir . '/app/Exceptions/DefaultException.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+    'App\\Helpers\\Http' => $baseDir . '/app/Helpers/Http.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\EmailController' => $baseDir . '/app/Http/Controllers/EmailController.php',
@@ -5396,7 +5397,6 @@ return array(
     'Termwind\\ValueObjects\\Style' => $vendorDir . '/nunomaduro/termwind/src/ValueObjects/Style.php',
     'Termwind\\ValueObjects\\Styles' => $vendorDir . '/nunomaduro/termwind/src/ValueObjects/Styles.php',
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
-    'Tests\\Feature\\AuthTest' => $baseDir . '/tests/Feature/AuthTest.php',
     'Tests\\Feature\\EmailTest' => $baseDir . '/tests/Feature/EmailTest.php',
     'Tests\\Feature\\SaleTest' => $baseDir . '/tests/Feature/SaleTest.php',
     'Tests\\Feature\\SellerTest' => $baseDir . '/tests/Feature/SellerTest.php',

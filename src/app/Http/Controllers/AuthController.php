@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\DefaultException;
+use App\Helpers\Http;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    private AuthService $service;
+    use Http;
+
+    public AuthService $service;
 
     public function __construct()
     {
@@ -68,7 +70,9 @@ class AuthController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 
@@ -110,7 +114,9 @@ class AuthController extends Controller
 
             return response()->json($data['response'], $data['code']);
         } catch (\Throwable $th) {
-            return DefaultException::make($th);
+            $data = $this->serverError();
+
+            return response()->json($data['response'], $data['code']);
         }
     }
 }

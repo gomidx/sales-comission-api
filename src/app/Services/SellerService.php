@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Enums\HttpCode;
+use App\Helpers\Http;
 use App\Repositories\SellerRepository;
 
 class SellerService
 {
+    use Http;
+
     private SellerRepository $repository;
 
     public function __construct()
@@ -18,12 +21,7 @@ class SellerService
     {
         $seller = $this->repository->createSeller($sellerDetails);
 
-        return [
-            'code' => HttpCode::CREATED->value,
-			'response' => [
-                'data' => $seller
-            ]
-        ];
+        return $this->created($seller);
     }
 
     public function getSeller(int $sellerId): array
@@ -36,24 +34,14 @@ class SellerService
 
         $seller = $this->repository->getSellerById($sellerId);
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-			'response' => [
-                'data' => $seller
-            ]
-        ];
+        return $this->ok($seller);
     }
 
     public function getSellers(): array
     {
         $sellers = $this->repository->getSellers();
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-			'response' => [
-                'data' => $sellers
-            ]
-        ];
+        return $this->ok($sellers);
     }
 
     public function updateSeller(int $sellerId, array $sellerDetails): array
@@ -68,12 +56,7 @@ class SellerService
 
         $seller = $this->repository->getSellerById($sellerId);
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-			'response' => [
-                'data' => $seller
-            ]
-        ];
+        return $this->ok($seller);
     }
 
     public function deleteSeller(int $sellerId): array
@@ -86,12 +69,7 @@ class SellerService
 
         $this->repository->deleteSeller($sellerId);
 
-        return [
-            'code' => HttpCode::SUCCESS->value,
-			'response' => [
-                'data' => 'Successfully deleted.'
-            ]
-        ];
+        return $this->ok('Successfully deleted.');
     }
 
     private function checkIfHasError(int $sellerId): array
@@ -99,12 +77,7 @@ class SellerService
         $seller = $this->repository->getSellerById($sellerId);
 
         if (empty($seller->id)) {
-            return [
-                'code' => HttpCode::NOT_FOUND->value,
-			    'response' => [
-                    'error' => "Seller doesn't exists."
-                ]
-            ];
+            return $this->notFound("Seller doesn't exists.");
         }
 
         return [];
