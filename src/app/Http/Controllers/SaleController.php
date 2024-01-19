@@ -197,7 +197,7 @@ class SaleController extends Controller
         }
     }
 
-    /**s
+    /**
      * @OA\Get(
      *      path="/seller/{id}/sales",
      *      operationId="getSalesBySeller",
