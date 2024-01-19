@@ -20,12 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/token', [AuthController::class, 'generateToken'])->name('auth.generateToken');
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
+Route::get('/seller/list/email', [EmailController::class, 'sellersSalesEmail'])->name('seller.sellersListEmail');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('user', UserController::class)->except('store');
-    Route::apiResource('sale', SaleController::class);
-    Route::apiResource('seller', SellerController::class);
-
     Route::prefix('/sale')->group(function () {
         Route::get('/list', [SaleController::class, 'list'])->name('sale.email');
         Route::get('/list/email', [EmailController::class, 'allSalesEmail'])->name('sale.email');
@@ -33,9 +30,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/seller')->group(function () {
         Route::get('/list', [SellerController::class, 'list'])->name('seller.list');
-        Route::get('/{id}/sales', [SaleController::class, 'sellerSalesEmail'])->name('seller.salesBySellerId');
-        Route::get('/{id}/email', [EmailController::class, 'sellerSalesEmail'])->name('seller.email');
+        Route::get('/{id}/sales', [SaleController::class, 'listBySellerId'])->name('seller.salesBySellerId');
+        Route::get('/{id}/email', [EmailController::class, 'sellerSalesEmail'])->name('seller.sellerSalesEmail');
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::apiResource('user', UserController::class)->except('store');
+    Route::apiResource('sale', SaleController::class);
+    Route::apiResource('seller', SellerController::class);
 });
